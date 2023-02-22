@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="card.cpp" />
     <ClCompile Include="cards_stack.cpp" />
+    <ClCompile Include="choose_stack.cpp" />
     <ClCompile Include="ConsoleApplication1.cpp" />
     <ClCompile Include="deck.cpp" />
     <ClCompile Include="finish_stack.cpp" />
@@ -137,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="card.h" />
     <ClInclude Include="cards_stack.h" />
+    <ClInclude Include="choose_stack.h" />
     <ClInclude Include="deck.h" />
     <ClInclude Include="finish_stack.h" />
     <ClInclude Include="game.h" />

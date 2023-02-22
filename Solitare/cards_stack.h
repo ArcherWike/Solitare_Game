@@ -1,10 +1,13 @@
 #pragma once
-#include "card.h"
+#include "deck.h"
 #include <vector>
 
 class Cards_stack
 {
 public:
+	Cards_stack(int number_of_stack, Deck deck_val);
+	void Create_stack(Card card_val, bool face_option); //
+
 	void Add_card(Card card_val);
 	bool Move_cards(const std::vector<Card>& cards);
 

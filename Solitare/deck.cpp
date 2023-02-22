@@ -1,6 +1,7 @@
 #include "deck.h"
 #include <time.h>
 #include <stdlib.h>
+#include <iostream>
 
 Deck::Deck()
 {
@@ -9,6 +10,7 @@ Deck::Deck()
 		for (int j = (int)Card::Colour::clubs; j <= (int)Card::Colour::spades; j++)
 		{
 			m_cards.push_back(Card(i, (Card::Colour)j));
+			//std::cout << i << " " << (int)(Card::Colour)j << std::endl;
 		}
 	}
 }
@@ -17,7 +19,11 @@ Card Deck::Draw()
 {
 	srand(time(NULL));
 	int card_index = rand() % m_cards.size();
-	Card to_remove = m_cards[card_index];
+	Card pulled = m_cards[card_index];
 	m_cards.erase(m_cards.begin() + card_index);
-	return to_remove;
+	return pulled;
+}
+
+void Deck::Transfer_choose_stack(Choose_stack stack, std::vector<Card> m_cards)
+{
 }

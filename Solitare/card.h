@@ -11,8 +11,7 @@ public:
 		spades
 	};
 	Card(int val, Colour val_colour);
-private:
+//private:
 	int m_value;
 	Colour m_colour;
-	
 };
