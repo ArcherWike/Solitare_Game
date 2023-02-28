@@ -1,26 +1,25 @@
 #include "cards_stack.h"
-#include <iostream>
 
-/*/Cards_stack::Cards_stack()
+Cards_stack::Cards_stack(int number_of_stack, Deck &deck_val)
 {
-	int quantity_stack = 6;
-	bool face_up = true;
-	for (int column = 1; column <= 6; column++)
+	for (int i = 0; i < number_of_stack; i++)
 	{
-
+		face_down.push_back(deck_val.Draw());
 	}
-	face_down = false;
-}/*/
-
-Cards_stack::Cards_stack(int number_of_stack, Deck deck_val)
+	face_up.push_back(deck_val.Draw());
+}
+void Cards_stack::Show_cards_stack()
 {
-	bool face_option = true;
-	for (int i = 1; i < number_of_stack; i++)
+	for (int i = 0; i < face_up.size(); i++)
 	{
-		Create_stack(deck_val.Draw(), face_option);
+		std::cout << "[" << face_up[i].m_value << "." << (int)face_up[i].m_colour << "] ";
+	}
+	for (int i = 0; i < face_down.size(); i++)
+	{
+		std::cout << "[" << face_down[i].m_value << "." << (int)face_down[i].m_colour << "] ";
 	}
 }
-
+/*/
 void Cards_stack::Create_stack(Card card_val, bool face_option)
 {
 	if (face_option)
@@ -33,7 +32,7 @@ void Cards_stack::Create_stack(Card card_val, bool face_option)
 	}
 
 }
-
+/*/
 void Cards_stack::Add_card(Card card_val)
 {
 

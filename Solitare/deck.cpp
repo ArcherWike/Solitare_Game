@@ -24,6 +24,13 @@ Card Deck::Draw()
 	return pulled;
 }
 
-void Deck::Transfer_choose_stack(Choose_stack stack, std::vector<Card> m_cards)
+bool Deck::Is_empty() const
 {
+	return m_cards.empty();
 }
+
+std::vector<Card> Deck::Transfer_all_cards()
+{
+	return m_cards;
+}
+
