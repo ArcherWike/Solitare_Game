@@ -8,6 +8,38 @@ Game::Game()
 
 void Game::Handle_event(Game_event action)
 {
+	if (action == Game_event::debug_board)
+	{
+		std::cout << ".					     __________ " << std::endl;
+		std::cout << ".						DEBUG  |" << std::endl;
+		std::cout << ".					    |__________|" << std::endl;
+		//++
+		Card King(13, Card::Colour::clubs);
+		//std::cout << m_choose_card.Check_take_card(King);
+
+		std::cout << "===============[  Choose_Stack  ]===============" << std::endl;
+		m_choose_card.Show_choose_stack();
+		std::cout << std::endl;
+
+		std::cout << "_______________________________________" << std::endl;
+
+		std::cout << "===============[ m_columns ]===============" << std::endl;
+		for (int i = 0; i < m_columns.size(); i++)
+		{
+			std::cout << "m_columns " << i+1 << ":  ";
+			m_columns.at(i).Show_cards_stack();
+			std::cout << std::endl;
+		}
+		std::cout << "===============[ finish_stack ]===============" << std::endl;
+		for (int j = 0; j < m_finish_stacks.size(); j++)
+		{
+			std::cout << "finish_stack " << j + 1 << ":  ";
+			m_finish_stacks.at(j).Show_finish_stack();
+			std::cout << std::endl;
+		}
+		
+		std::cout << "____________________________________________" << std::endl;//++
+	}
 }
 
 void Game::Shuffle_cards()

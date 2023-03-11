@@ -10,6 +10,11 @@ int main()
     while (true)
     {
         Game_event action = input.Accept_input();
+        if (action == Game_event::exit)
+        {
+            return 0;
+        }
+
         game.Handle_event(action);
 
     }

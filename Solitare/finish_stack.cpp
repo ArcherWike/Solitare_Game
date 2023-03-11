@@ -1,6 +1,14 @@
 #include "finish_stack.h"
 #include <iostream>
 
+void Finish_stack::Show_finish_stack()
+{
+	for (int i = 0; i < m_card.size(); i++)
+	{
+		std::cout << "[" << m_card[i].m_value << "." << (int)m_card[i].m_colour << "] ";
+	}
+}
+
 bool Finish_stack::Add_card(Card card_to_add)
 {
 	if (m_card.empty())

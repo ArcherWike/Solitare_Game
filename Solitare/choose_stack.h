@@ -11,7 +11,7 @@ public:
 	Card Take_card(Card card_to_take);
 	bool See_card();
 	void Insert_cards(const std::vector<Card>& cards);
-	void Collect_from_deck();//(?)
+
 private:
 	std::vector<Card> m_hidden_cards;
 	std::vector<Card> m_visible_cards;

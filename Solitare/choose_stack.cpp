@@ -11,10 +11,12 @@ Choose_stack::Choose_stack(Deck& deck_val)
 
 void Choose_stack::Show_choose_stack()
 {
+	std::cout << "visible: " << std::endl;
 	for (int i = 0; i < m_visible_cards.size(); i++)
 	{
 		std::cout << "[" << m_visible_cards[i].m_value << "." << (int)m_visible_cards[i].m_colour << "] ";
 	}
+	std::cout << "hidden: " << std::endl;
 	for (int i = 0; i < m_hidden_cards.size(); i++)
 	{
 		std::cout << "[" << m_hidden_cards[i].m_value << "." << (int)m_hidden_cards[i].m_colour << "] ";
