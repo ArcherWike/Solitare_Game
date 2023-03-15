@@ -4,6 +4,7 @@ enum class Game_event
 {
 	help,
 	exit,
-	debug_board
-
+	debug_board,
+	flip_choose_stack,
+	move
 };

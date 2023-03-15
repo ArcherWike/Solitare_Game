@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include "card.h"
-#include <iostream>
 
 class Deck
 {

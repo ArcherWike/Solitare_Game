@@ -1,5 +1,6 @@
 #include "cards_stack.h"
 
+
 Cards_stack::Cards_stack(int number_of_stack, Deck &deck_val)
 {
 	for (int i = 0; i < number_of_stack; i++)
@@ -8,7 +9,23 @@ Cards_stack::Cards_stack(int number_of_stack, Deck &deck_val)
 	}
 	face_up.push_back(deck_val.Draw());
 }
-void Cards_stack::Show_cards_stack()
+
+void Cards_stack::Add_card(Card card_val)
+{
+	face_up.push_back(card_val);
+}
+
+bool Cards_stack::Check_take_card(Card card_to_check)
+{
+	if (card_to_check.m_value == face_up.back().m_value + 1)
+		//&& card_to_check.m_colour == face_up.back().m_colour)
+	{
+		return true;
+	}
+	return false;
+}
+
+void Cards_stack::Show_debug() const
 {
 	for (int i = 0; i < face_up.size(); i++)
 	{
@@ -18,23 +35,5 @@ void Cards_stack::Show_cards_stack()
 	{
 		std::cout << "[" << face_down[i].m_value << "." << (int)face_down[i].m_colour << "] ";
 	}
-}
-/*/
-void Cards_stack::Create_stack(Card card_val, bool face_option)
-{
-	if (face_option)
-	{
-		face_up.push_back(card_val);
-	}
-	else
-	{
-		face_down.push_back(card_val);
-	}
-
-}
-/*/
-void Cards_stack::Add_card(Card card_val)
-{
-
 }
 

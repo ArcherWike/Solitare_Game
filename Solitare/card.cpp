@@ -5,3 +5,8 @@ Card::Card(int val, Colour val_colour)
 	, m_value(val)
 {
 }
+
+void Card::Show_debug() const
+{
+	std::
+}

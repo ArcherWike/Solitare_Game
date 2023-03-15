@@ -1,16 +1,20 @@
 #pragma once
 #include "deck.h"
 #include <vector>
+#include "printable.h"
 
-class Cards_stack
+class Cards_stack: public I_printable
 {
 public:
 	Cards_stack(int number_of_stack, Deck &deck_val);
-	void Show_cards_stack();
-	//void Create_stack(Card card_val, bool face_option); //
+	
 	void Add_card(Card card_val);
-	bool Move_cards(const std::vector<Card>& cards);
+	bool Check_take_card(Card card_to_check);
+
+	// Odziedziczono za poœrednictwem elementu I_printable
+	virtual void Show_debug() const override;
 private:
 	std::vector<Card> face_down;
 	std::vector<Card> face_up;
+
 };

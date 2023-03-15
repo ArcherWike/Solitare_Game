@@ -1,12 +1,15 @@
 #pragma once
 #include <vector>
 #include "card.h"
+#include "printable.h"
 
-class Finish_stack
+class Finish_stack: public I_printable
 {
 public:
-	void Show_finish_stack();
 	bool Add_card(Card card_to_add);
+	// Odziedziczono za poœrednictwem elementu I_printable
+	virtual void Show_debug() const override;
 private:
 	std::vector<Card> m_card;
+
 };
