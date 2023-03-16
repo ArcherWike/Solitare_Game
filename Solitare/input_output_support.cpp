@@ -54,8 +54,8 @@ std::vector<int> Input_output_support::Select_stacks()
 	
 
 	std::vector<int> input_val;
-	input_val.push_back(card_from);
-	input_val.push_back(card_to);
+	input_val.push_back(card_from - 3);
+	input_val.push_back(card_to - 3);
 	
 	return input_val;
 }

@@ -6,7 +6,3 @@ Card::Card(int val, Colour val_colour)
 {
 }
 
-void Card::Show_debug() const
-{
-	std::
-}

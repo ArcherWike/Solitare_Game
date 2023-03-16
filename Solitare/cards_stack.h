@@ -8,6 +8,7 @@ class Cards_stack: public I_printable
 public:
 	Cards_stack(int number_of_stack, Deck &deck_val);
 	
+	Card Give_card(int index);
 	void Add_card(Card card_val);
 	bool Check_take_card(Card card_to_check);
 
@@ -16,5 +17,4 @@ public:
 private:
 	std::vector<Card> face_down;
 	std::vector<Card> face_up;
-
 };
