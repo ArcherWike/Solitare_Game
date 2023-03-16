@@ -6,11 +6,18 @@ Choose_stack::Choose_stack(Deck& deck_val)
 	{
 		m_hidden_cards.push_back(deck_val.Draw());
 	}
+
+
 }
 
 Card Choose_stack::Give_card()
 {
-	return m_visible_cards.front();
+	return m_visible_cards.at(0);//front
+}
+
+void Choose_stack::Remove_card()
+{
+	m_visible_cards.pop_back();
 }
 
 bool Choose_stack::Check_not_empty()

@@ -12,7 +12,7 @@ void Input_output_support::Present_actions() const
 	std::cout << "2- flip_choose_stack " << std::endl;
 	std::cout << "9- Help " << std::endl;
 	std::cout << "1- Select stacks " << std::endl;
-	std::cout << "324-" << std::endl;
+	std::cout << "324-/-123" << std::endl;
 }
 
 std::vector<int> Input_output_support::Select_stacks()
@@ -81,6 +81,8 @@ Game_event Input_output_support::Accept_input() const
 	case 9:
 		Help_Guide();
 		return Accept_input();
+	case 123:
+		return Game_event::test;
 	case 324:
 		return Game_event::debug_board;
 

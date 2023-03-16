@@ -9,6 +9,7 @@ public:
 	Choose_stack(Deck& deck_val);
 
 	Card Give_card();
+	void Remove_card();
 	bool Check_not_empty();
 	bool See_card();
 	// Odziedziczono za poœrednictwem elementu I_printable

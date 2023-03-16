@@ -17,23 +17,48 @@ void Game::Handle_event(Game_event action)
 	{
 		m_choose_card.See_card();
 	}
+	else if (action == Game_event::test)
+	{
+		m_columns.at(6).Remove_card(1);
+	}
 }
 
 void Game::Move_cards(std::vector<int> input_val)
 {
-	if (input_val.front() == 1 && m_choose_card.Check_not_empty())
+	if (input_val.front() == -2)
 	{
 		std::cout << "move choose -> stack: ";
-		std::cout << m_columns.at(input_val.at(1)).Check_take_card(m_choose_card.Give_card());
+		if (m_choose_card.Check_not_empty())
+		{
+			std::cout << m_columns.at(input_val.at(1)).Check_take_card(m_choose_card.Give_card());
+			if (m_columns.at(input_val.at(1)).Check_take_card(m_choose_card.Give_card()))
+			{
+				m_columns.at(input_val.at(1)).Add_card(m_choose_card.Give_card());
+				m_choose_card.Remove_card();
+			}
+		
+		}
 	}
 	else
 	{
 		std::cout << "move stack -> stack: ";
 		//m_columns.at(input_val.at(0)).Give_card(input_val.at(1));
 
-																		//argument -  index
-		std::cout << m_columns.at(input_val.at(0)).Check_take_card(m_columns.at(input_val.at(1)).Give_card(0));//kolumna na która chce po³o¿yæ
-		std::cout << "xx" << std::endl;
+		if (!m_columns.at(input_val.at(0)).Check_not_empty()) //Stack is empty
+		{
+			m_columns.at(input_val.at(1)).Add_card(m_columns.at(input_val.at(0)).Give_card(0));
+			m_columns.at(input_val.at(0)).Remove_card(1);
+		}
+		else
+		{																					//argument -  index
+			std::cout << m_columns.at(input_val.at(1)).Check_take_card(m_columns.at(input_val.at(0)).Give_card(0));//kolumna na która chce po³o¿yæ
+			if (m_columns.at(input_val.at(1)).Check_take_card(m_columns.at(input_val.at(0)).Give_card(0)))
+			{
+				m_columns.at(input_val.at(1)).Add_card(m_columns.at(input_val.at(0)).Give_card(0));
+				m_columns.at(input_val.at(0)).Remove_card(1);
+			}
+			std::cout << "xx" << std::endl;
+		}																
 	}
 	
 }

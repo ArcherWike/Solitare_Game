@@ -6,5 +6,6 @@ enum class Game_event
 	exit,
 	debug_board,
 	flip_choose_stack,
-	move
+	move,
+	test
 };

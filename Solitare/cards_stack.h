@@ -9,7 +9,9 @@ public:
 	Cards_stack(int number_of_stack, Deck &deck_val);
 	
 	Card Give_card(int index);
+	bool Check_not_empty();
 	void Add_card(Card card_val);
+	void Remove_card(int quantity);
 	bool Check_take_card(Card card_to_check);
 
 	// Odziedziczono za poœrednictwem elementu I_printable

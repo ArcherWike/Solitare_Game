@@ -15,14 +15,36 @@ Card Cards_stack::Give_card(int index)
 	return face_up.at(0);
 }
 
+bool Cards_stack::Check_not_empty()
+{
+	if (!face_up.empty())
+	{
+		return true;
+	}
+	return false;
+}
+
 void Cards_stack::Add_card(Card card_val)
 {
 	face_up.push_back(card_val);
 }
 
+void Cards_stack::Remove_card(int quantity)
+{
+	for (int i = 0; i < quantity; i++)
+	{
+		face_up.pop_back();
+	}
+	if (!face_down.empty())
+	{
+		face_up.push_back(face_down.back());
+		face_down.pop_back();
+	}
+}
+
 bool Cards_stack::Check_take_card(Card card_to_check)
 {
-	if (card_to_check.m_value == face_up.front().m_value + 1)
+	if (card_to_check.m_value == face_up.back().m_value + 1)
 		//&& card_to_check.m_colour == face_up.back().m_colour)
 	{
 		return true;
