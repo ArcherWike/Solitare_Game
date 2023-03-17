@@ -25,43 +25,137 @@ void Game::Handle_event(Game_event action)
 
 void Game::Move_cards(std::vector<int> input_val)
 {
-	if (input_val.front() == -2)
+	bool Continue = true;
+	//validate data parameter - input_val
+	std::cout << input_val.size() << "INPUT VAL:" << std::endl;
+	for (int j = 0; j < input_val.size(); j++)
 	{
-		std::cout << "move choose -> stack: ";
-		if (m_choose_card.Check_not_empty())
+		std::cout << input_val.at(j)<< ", ";
+		if (input_val.at(j) < 0)
 		{
-			std::cout << m_columns.at(input_val.at(1)).Check_take_card(m_choose_card.Give_card());
-			if (m_columns.at(input_val.at(1)).Check_take_card(m_choose_card.Give_card()))
-			{
-				m_columns.at(input_val.at(1)).Add_card(m_choose_card.Give_card());
-				m_choose_card.Remove_card();
-			}
-		
+			Continue = false;
 		}
 	}
-	else
-	{
-		std::cout << "move stack -> stack: ";
-		//m_columns.at(input_val.at(0)).Give_card(input_val.at(1));
-
-		if (!m_columns.at(input_val.at(0)).Check_not_empty()) //Stack is empty
+	std::cout <<std::endl;
+	if (Continue)
+	{	//choose_stack -> X
+		if (input_val.front() == 8)  //Take from choose_stack
 		{
-			m_columns.at(input_val.at(1)).Add_card(m_columns.at(input_val.at(0)).Give_card(0));
-			m_columns.at(input_val.at(0)).Remove_card(1);
-		}
+			if (input_val.at(1) == 9) //To Finish_stack
+			{
+				std::cout << "move choose -> finish: ";
+				if (m_choose_card.Check_not_empty())
+				{
+					for (int j = 0; j < m_finish_stacks.size(); j++)
+					{
+						if (m_finish_stacks.at(j).Check_take_card(m_choose_card.Give_card()))
+						{
+							std::cout << "mozna dodac";
+							m_finish_stacks.at(j).Add_card(m_choose_card.Give_card());
+							m_choose_card.Remove_card();
+							break;
+						}
+					}
+				}
+				else
+				{
+					std::cout << "pusty!";
+				}
+			}//choose_stack -> stack
+			else
+			{
+				std::cout << "move choose -> stack: ";
+				if (m_choose_card.Check_not_empty())
+				{
+					if (!m_columns.at(input_val.at(1)).Check_not_empty()) //is Empty
+					{
+						m_columns.at(input_val.at(1)).Add_card(m_choose_card.Give_card());
+						m_choose_card.Remove_card();
+					}
+					else
+					{
+						std::cout << m_columns.at(input_val.at(1)).Check_take_card(m_choose_card.Give_card());
+						if (m_columns.at(input_val.at(1)).Check_take_card(m_choose_card.Give_card()))
+						{
+							m_columns.at(input_val.at(1)).Add_card(m_choose_card.Give_card());
+							m_choose_card.Remove_card();
+						}
+					}
+				}
+				std::cout << "pusty!";
+			}
+		}//Finish_Stack -> X
+		else if (input_val.front() == 9) //From Finish_Stack
+		{
+			std::cout << "move Finish -> Stack: ";
+			if (m_finish_stacks.at(input_val.at(1)).Check_not_empty())
+			{
+				if (m_columns.at(input_val.at(2)).Check_take_card(m_finish_stacks.at(input_val.at(1)).Give_card()))
+				{
+					std::cout << "mozna dodac";
+					m_columns.at(input_val.at(2)).Add_card(m_finish_stacks.at(input_val.at(1)).Give_card());
+					m_finish_stacks.at(input_val.at(1)).Remove_card();
+				}
+			}
+			else 
+			{
+				std::cout << "pusty!";
+			}
+		}//Cards_stack (Columns) -> X
 		else
-		{																					//argument -  index
-			std::cout << m_columns.at(input_val.at(1)).Check_take_card(m_columns.at(input_val.at(0)).Give_card(0));//kolumna na która chce po³o¿yæ
-			if (m_columns.at(input_val.at(1)).Check_take_card(m_columns.at(input_val.at(0)).Give_card(0)))
+		{	
+			if (input_val.at(1) == 9) //To Finish Stack
 			{
-				m_columns.at(input_val.at(1)).Add_card(m_columns.at(input_val.at(0)).Give_card(0));
-				m_columns.at(input_val.at(0)).Remove_card(1);
+				std::cout << "move stack -> finish: ";
+				if (m_columns.at(input_val.at(0)).Check_not_empty())
+				{
+					for (int j = 0; j < m_finish_stacks.size(); j++)
+					{
+						if (m_finish_stacks.at(j).Check_take_card(m_columns.at(input_val.at(0)).Give_card(0)))
+						{
+							std::cout << "mozna dodac";
+							m_finish_stacks.at(j).Add_card(m_columns.at(input_val.at(0)).Give_card(0));
+							m_columns.at(input_val.at(0)).Remove_card(1);
+							break;
+						}
+					}
+				}
+				else
+				{
+					std::cout << "Ej! stack jest pusty";
+				}
 			}
-			std::cout << "xx" << std::endl;
-		}																
+			else //Stack -> Stack
+			{
+				std::cout << "move stack -> stack: ";
+				if (m_columns.at(input_val.at(0)).Check_not_empty())
+				{
+
+				if (!m_columns.at(input_val.at(1)).Check_not_empty()) //Stack is empty
+				{
+					m_columns.at(input_val.at(1)).Add_card(m_columns.at(input_val.at(0)).Give_card(0));
+					m_columns.at(input_val.at(0)).Remove_card(1);
+				}
+				else
+				{																					//argument -  index
+					std::cout << m_columns.at(input_val.at(1)).Check_take_card(m_columns.at(input_val.at(0)).Give_card(0));//kolumna na która chce po³o¿yæ
+					if (m_columns.at(input_val.at(1)).Check_take_card(m_columns.at(input_val.at(0)).Give_card(0)))
+					{
+						m_columns.at(input_val.at(1)).Add_card(m_columns.at(input_val.at(0)).Give_card(0));
+						m_columns.at(input_val.at(0)).Remove_card(1);
+					}
+					std::cout << "xx" << std::endl;
+				}
+				}
+				else
+				{
+					std::cout << "Ej! stack jest pusty";
+				}
+			}
+		}
 	}
-	
 }
+
 
 void Game::Shuffle_cards()
 {

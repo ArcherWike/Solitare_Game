@@ -17,8 +17,6 @@ int main()
         else if (action == Game_event::move)
         {
             std::vector<int> input_val = input.Select_stacks();
-
-            std::cout <<": "<< input_val.front() << " " << input_val.back();
             game.Move_cards(input_val);
         }
 
