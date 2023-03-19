@@ -12,7 +12,7 @@ Cards_stack::Cards_stack(int number_of_stack, Deck &deck_val)
 
 Card Cards_stack::Give_card(int index)
 {
-	return face_up.at(0);
+	return face_up.at(index);
 }
 
 bool Cards_stack::Check_not_empty()
@@ -29,13 +29,13 @@ void Cards_stack::Add_card(Card card_val)
 	face_up.push_back(card_val);
 }
 
-void Cards_stack::Remove_card(int quantity)
+void Cards_stack::Remove_card(int quantity, int index)
 {
-	for (int i = 0; i < quantity; i++)
+	for (int i = index; i < quantity; i++)
 	{
 		face_up.pop_back();
 	}
-	if (!face_down.empty())
+	if (!face_down.empty() and face_up.empty())
 	{
 		face_up.push_back(face_down.back());
 		face_down.pop_back();
@@ -44,13 +44,31 @@ void Cards_stack::Remove_card(int quantity)
 
 bool Cards_stack::Check_take_card(Card card_to_check)
 {
-	if (card_to_check.m_value == face_up.back().m_value + 1)
-		//&& card_to_check.m_colour == face_up.back().m_colour)
+	if ((card_to_check.m_value == face_up.back().m_value + 1)
+		&& int(card_to_check.m_colour)%2 == int(face_up.back().m_colour)%2)
 	{
 		return true;
 	}
 	return false;
 }
+
+bool Cards_stack::Check_has_card(int card_value)
+{
+	for (int i = 0; i < face_up.size(); i++)
+	{
+		if (face_up.at(i).m_value == card_value)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+int Cards_stack::Size_face_up()
+{
+	return face_up.size();
+}
+
 
 void Cards_stack::Show_debug() const
 {

@@ -17,9 +17,11 @@ int main()
         else if (action == Game_event::move)
         {
             std::vector<int> input_val = input.Select_stacks();
-            game.Move_cards(input_val);
+            if (!input_val.empty())
+            {
+                game.Move_cards(input_val);
+            }
         }
-
         game.Handle_event(action);
 
     }
