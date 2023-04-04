@@ -44,8 +44,8 @@ void Cards_stack::Remove_card(int quantity, int index)
 
 bool Cards_stack::Check_take_card(Card card_to_check)
 {
-	if ((card_to_check.m_value == face_up.back().m_value + 1)
-		&& int(card_to_check.m_colour)%2 == int(face_up.back().m_colour)%2)
+	if ((card_to_check.m_value == face_up.back().m_value + 1))
+		//&& int(card_to_check.m_colour)%2 == int(face_up.back().m_colour)%2)
 	{
 		return true;
 	}
@@ -64,9 +64,37 @@ bool Cards_stack::Check_has_card(int card_value)
 	return false;
 }
 
+int Cards_stack::Give_index(int card_value)
+{
+	for (int i = 0; i < face_up.size(); i++)
+	{
+		if (face_up.at(i).m_value == card_value)
+		{
+			return i;
+		}
+	}
+	return 55555;
+}
+
 int Cards_stack::Size_face_up()
 {
 	return face_up.size();
+}
+
+void Cards_stack::Show_card(int index) const
+{
+	if (face_down.size() + face_up.size() <= index)
+	{
+		std::cout << "        ";
+	}
+	else if (face_down.size() > index)
+	{
+		std::cout << " [ X.X ]";
+	}
+	else
+	{
+		face_up.at(index - face_down.size()).Show_user();
+	}
 }
 
 
@@ -74,12 +102,12 @@ void Cards_stack::Show_debug() const
 {
 	for (int i = 0; i < face_down.size(); i++)
 	{
-		std::cout << "[" << face_down[i].m_value << "." << (int)face_down[i].m_colour << "] ";
+		face_down[i].Show_debug();
 	}
 	std::cout << "|";
 	for (int i = 0; i < face_up.size(); i++)
 	{
-		std::cout << "[" << face_up[i].m_value << "." << (int)face_up[i].m_colour << "] ";
+		face_up[i].Show_debug();
 		
 	}
 }

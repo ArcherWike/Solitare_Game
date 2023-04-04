@@ -49,20 +49,21 @@ void Game::Move_cards(std::vector<int> input_val)
 		}//choose_stack -> stack
 		else
 		{
+			Cards_stack& to_column = m_columns.at(input_val.at(1));
 			std::cout << "move choose -> stack: ";
 			if (m_choose_card.Check_not_empty())
 			{
-				if (!m_columns.at(input_val.at(1)).Check_not_empty()) //is Empty
+				if (!to_column.Check_not_empty()) //is Empty
 				{
-					m_columns.at(input_val.at(1)).Add_card(m_choose_card.Give_card());
+					to_column.Add_card(m_choose_card.Give_card());
 					m_choose_card.Remove_card();
 				}
 				else
 				{
-					std::cout << m_columns.at(input_val.at(1)).Check_take_card(m_choose_card.Give_card());
-					if (m_columns.at(input_val.at(1)).Check_take_card(m_choose_card.Give_card()))
+					std::cout << to_column.Check_take_card(m_choose_card.Give_card());
+					if (to_column.Check_take_card(m_choose_card.Give_card()))
 					{
-						m_columns.at(input_val.at(1)).Add_card(m_choose_card.Give_card());
+						to_column.Add_card(m_choose_card.Give_card());
 						m_choose_card.Remove_card();
 					}
 				}
@@ -89,18 +90,19 @@ void Game::Move_cards(std::vector<int> input_val)
 	}//Cards_stack (Columns) -> X
 	else
 	{
+		Cards_stack& from_column = m_columns.at(input_val.at(0));
 		if (input_val.at(1) == 8) //To Finish Stack
 		{
 			std::cout << "move stack -> finish: ";
-			if (m_columns.at(input_val.at(0)).Check_not_empty())
+			if (from_column.Check_not_empty())
 			{
 				for (int j = 0; j < m_finish_stacks.size(); j++)
 				{
-					if (m_finish_stacks.at(j).Check_take_card(m_columns.at(input_val.at(0)).Give_card(0)))
+					if (m_finish_stacks.at(j).Check_take_card(from_column.Give_card(0)))
 					{
 						std::cout << "mozna dodac";
-						m_finish_stacks.at(j).Add_card(m_columns.at(input_val.at(0)).Give_card(0));
-						m_columns.at(input_val.at(0)).Remove_card(1, 0);
+						m_finish_stacks.at(j).Add_card(from_column.Give_card(0));
+						from_column.Remove_card(1, 0);
 						break;
 					}
 				}
@@ -113,17 +115,23 @@ void Game::Move_cards(std::vector<int> input_val)
 		else //Stack -> Stack
 		{
 			std::cout << "move stack -> stack: ";
+			//Cards_stack& from_column = m_columns.at(input_val.at(0));
+			//Cards_stack *from_column = &m_columns.at(input_val.at(0));
 
+			Cards_stack& to_column = m_columns.at(input_val.at(1));
 			if (input_val.size() == 3)
 			{
+				/*std::cout << m_columns.at(input_val.at(0)).Check_has_card(input_val.at(2));
+				std::cout << m_columns.at(input_val.at(0)).Give_index(input_val.at(2));*/
 				int lenght_mfrom = m_columns.at(input_val.at(0)).Size_face_up();
-				if (m_columns.at(input_val.at(1)).Check_take_card(m_columns.at(input_val.at(0)).Give_card(input_val.at(2))))
+				if (to_column.Check_take_card(m_columns.at(input_val.at(0)).Give_card(input_val.at(2))))
 				{
 					for (int i = input_val.at(2); i < lenght_mfrom; i++)
 					{
-						m_columns.at(input_val.at(1)).Add_card(m_columns.at(input_val.at(0)).Give_card(i));
+						to_column.Add_card(m_columns.at(input_val.at(0)).Give_card(i));
 					}
-					m_columns.at(input_val.at(0)).Remove_card(lenght_mfrom, input_val.at(2));
+					//from_column->Remove_card(lenght_mfrom, input_val.at(2));
+					from_column.Remove_card(lenght_mfrom, input_val.at(2));
 				}
 			}
 			else
@@ -201,4 +209,26 @@ void Game::Show_debug() const
 		std::cout << std::endl;
 	}
 	std::cout << "____________________________________________" << std::endl;//++
+}
+
+void Game::Show_user() const
+{
+	m_choose_card.Show_user();
+	std::cout << "	";
+	std::cout << "finish_s: ";
+	for (int j = 0; j < m_finish_stacks.size(); j++)
+	{
+		std::cout << " " << j + 1 ;
+		m_finish_stacks.at(j).Show_user();
+	}
+	std::cout << std::endl;
+	for (int j = 0; j < 7; j++) 
+	{
+		for (int i = 0; i < m_columns.size(); i++)
+		{
+			m_columns.at(i).Show_card(j);
+		}
+		std::cout << std::endl;
+	}
+
 }

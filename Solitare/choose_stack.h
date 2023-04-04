@@ -14,6 +14,7 @@ public:
 	bool See_card();
 	// Odziedziczono za poœrednictwem elementu I_printable
 	virtual void Show_debug() const override;
+	virtual void Show_user() const override;
 private:
 	std::vector<Card> m_hidden_cards;
 	std::vector<Card> m_visible_cards;

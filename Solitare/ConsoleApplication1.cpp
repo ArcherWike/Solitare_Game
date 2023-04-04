@@ -9,6 +9,7 @@ int main()
     Game game;
     while (true)
     {
+        game.Show_user();
         Game_event action = input.Accept_input();
         if (action == Game_event::exit)
         {

@@ -57,13 +57,31 @@ void Choose_stack::Show_debug() const
 	std::cout << "visible: " << std::endl;
 	for (int i = 0; i < m_visible_cards.size(); i++)
 	{
-		std::cout << "[" << m_visible_cards[i].m_value << "." << (int)m_visible_cards[i].m_colour << "] ";
+		m_visible_cards[i].Show_debug();
 	}
 	std::cout << std::endl;
 	std::cout << "hidden: " << std::endl;
 	for (int i = 0; i < m_hidden_cards.size(); i++)
 	{
-		std::cout << "[" << m_hidden_cards[i].m_value << "." << (int)m_hidden_cards[i].m_colour << "] ";
+		m_hidden_cards[i].Show_debug();
 	}
 	std::cout << std::endl;
+}
+
+void Choose_stack::Show_user() const
+{
+	if (m_hidden_cards.empty()) {
+		std::cout << "  ";
+	}
+	else
+	{
+		std::cout << "X ";
+	}
+	if (m_visible_cards.empty()) {
+		std::cout << " ";
+	}
+	else
+	{
+		m_visible_cards.back().Show_user();
+	}
 }

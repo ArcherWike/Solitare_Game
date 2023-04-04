@@ -44,6 +44,18 @@ void Finish_stack::Show_debug() const
 {
 	for (int i = 0; i < m_card.size(); i++)
 	{
-		std::cout << "[" << m_card[i].m_value << "." << (int)m_card[i].m_colour << "] ";
+		m_card[i].Show_debug();
+	}
+}
+
+void Finish_stack::Show_user() const
+{
+	if (!m_card.empty())
+	{
+		m_card.back().Show_user();
+	}
+	else
+	{
+		std::cout << " ";
 	}
 }
