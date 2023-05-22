@@ -1,15 +1,15 @@
 #include "finish_stack.h"
 #include <iostream>
 
-bool Finish_stack::Check_take_card(Card card_to_check)
+bool Finish_stack::Check_take_card(const Card& card_to_check) const
 {
 	if (m_card.empty())
 	{
 		//if (card_to_check.m_value == 0)
 		return true;
 	}
-	else if (m_card.back().m_value + 1 == card_to_check.m_value
-		&& m_card.back().m_colour == card_to_check.m_colour)
+	else if (m_card.back().GetValue() + 1 == card_to_check.GetValue()
+		&& m_card.back().GetColour() == card_to_check.GetColour())
 	{
 		return true; 
 	}

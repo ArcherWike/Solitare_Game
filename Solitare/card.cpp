@@ -1,7 +1,7 @@
 ﻿#include "card.h"
 #include <iostream>
-//#include <clocale>
 #include <windows.h>
+#include "TextColourChanger.h"
 
 Card::Card(int val, Colour val_colour)
 	: m_colour(val_colour)
@@ -11,14 +11,34 @@ Card::Card(int val, Colour val_colour)
 
 void Card::Show_debug() const
 {
+	TextColourChanger textColour(m_selected);
 	std::cout << " [ " << m_value << "." << ColourToString(m_colour) << " ]";
 }
 
 void Card::Show_user() const
 {
-	//setlocale(LC_ALL, "");
+	TextColourChanger textColour(m_selected);
 	std::cout << " [ " << ValueToString(m_value) << "." << ColourToSign(m_colour) << " ]";
-	//std::wcout << L"\u2661";
+}
+
+int Card::GetValue() const
+{
+	return m_value;
+}
+
+Card::Colour Card::GetColour() const
+{
+	return m_colour;
+}
+
+void Card::SetSelect(bool option)
+{
+	m_selected = option;
+}
+
+bool Card::IsSelected() const
+{
+	return m_selected;
 }
 
 std::string Card::ColourToString(const Colour& val_colour)
@@ -40,7 +60,8 @@ std::string Card::ColourToString(const Colour& val_colour)
 
 char Card::ColourToSign(const Colour& val_colour)
 {
-	switch (val_colour) {
+	switch (val_colour) 
+	{
 	case Colour::clubs:
 		return 5;
 	case Colour::diamonds:

@@ -82,6 +82,7 @@ void Choose_stack::Show_user() const
 	}
 	else
 	{
+
 		m_visible_cards.back().Show_user();
 	}
 }

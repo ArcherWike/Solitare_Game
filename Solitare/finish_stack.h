@@ -6,7 +6,7 @@
 class Finish_stack: public I_printable
 {
 public:
-	bool Check_take_card(Card card_to_check);
+	bool Check_take_card(const Card& card_to_check) const;
 	void Add_card(Card card_to_add);
 	Card Give_card();
 	void Remove_card();

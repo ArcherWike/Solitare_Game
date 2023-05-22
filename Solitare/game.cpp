@@ -214,6 +214,8 @@ void Game::Show_debug() const
 void Game::Show_user() const
 {
 	m_choose_card.Show_user();
+
+	std::cout << std::endl;
 	std::cout << "	";
 	std::cout << "finish_s: ";
 	for (int j = 0; j < m_finish_stacks.size(); j++)

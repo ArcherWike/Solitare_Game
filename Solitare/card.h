@@ -15,10 +15,16 @@ public:
 	Card(int val, Colour val_colour);
 	virtual void Show_debug() const override;
 	virtual void Show_user() const override;
+	int GetValue() const;
+	Colour GetColour() const;
+	void SetSelect(bool option);
+	bool IsSelected() const;
 
+
+private:
+	bool m_selected = false;
 	int m_value;
 	Colour m_colour;
-private:
 	static std::string ColourToString(const Colour& val_colour);
 	static char ColourToSign(const Colour& val_colour);
 

@@ -8,6 +8,7 @@ Cards_stack::Cards_stack(int number_of_stack, Deck &deck_val)
 		face_down.push_back(deck_val.Draw());
 	}
 	face_up.push_back(deck_val.Draw());
+	face_up.back().SetSelect(true);
 }
 
 Card Cards_stack::Give_card(int index)
@@ -42,21 +43,21 @@ void Cards_stack::Remove_card(int quantity, int index)
 	}
 }
 
-bool Cards_stack::Check_take_card(Card card_to_check)
+bool Cards_stack::Check_take_card(const Card& card_to_check) const
 {
-	if ((card_to_check.m_value == face_up.back().m_value + 1))
-		//&& int(card_to_check.m_colour)%2 == int(face_up.back().m_colour)%2)
+	if (card_to_check.GetValue() == face_up.back().GetValue() + 1
+		&& int(card_to_check.GetColour())%2 == int(face_up.back().GetColour())%2)
 	{
 		return true;
 	}
 	return false;
 }
 
-bool Cards_stack::Check_has_card(int card_value)
+bool Cards_stack::Check_has_card(int card_value) const
 {
 	for (int i = 0; i < face_up.size(); i++)
 	{
-		if (face_up.at(i).m_value == card_value)
+		if (face_up.at(i).GetValue() == card_value)
 		{
 			return true;
 		}
@@ -68,7 +69,7 @@ int Cards_stack::Give_index(int card_value)
 {
 	for (int i = 0; i < face_up.size(); i++)
 	{
-		if (face_up.at(i).m_value == card_value)
+		if (face_up.at(i).GetValue() == card_value)
 		{
 			return i;
 		}

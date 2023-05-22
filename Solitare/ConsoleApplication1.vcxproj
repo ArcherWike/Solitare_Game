@@ -136,6 +136,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game_event.cpp" />
     <ClCompile Include="input_output_support.cpp" />
+    <ClCompile Include="TextColourChanger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="card.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="input_output_support.h" />
     <ClInclude Include="printable.h" />
+    <ClInclude Include="TextColourChanger.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

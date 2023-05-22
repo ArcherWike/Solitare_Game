@@ -12,8 +12,8 @@ public:
 	bool Check_not_empty();
 	void Add_card(Card card_val);
 	void Remove_card(int quantity = 1, int index = 0);
-	bool Check_take_card(Card card_to_check);
-	bool Check_has_card(int card_value);
+	bool Check_take_card(const Card& card_to_check) const;
+	bool Check_has_card(int card_value) const;
 	int Give_index(int card_value);
 	int Size_face_up();
 
