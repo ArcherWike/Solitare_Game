@@ -8,12 +8,12 @@ Cards_stack::Cards_stack(int number_of_stack, Deck &deck_val)
 		face_down.push_back(deck_val.Draw());
 	}
 	face_up.push_back(deck_val.Draw());
-	face_up.back().SetSelect(true);
+	//face_up.back().SetSelect(true);
 }
 
 Card Cards_stack::Give_card(int index)
 {
-	return face_up.at(index);
+	return face_up.at(face_up.size() - 1 - index);
 }
 
 bool Cards_stack::Check_not_empty()
@@ -45,6 +45,7 @@ void Cards_stack::Remove_card(int quantity, int index)
 
 bool Cards_stack::Check_take_card(const Card& card_to_check) const
 {
+	return true;
 	if (card_to_check.GetValue() == face_up.back().GetValue() + 1
 		&& int(card_to_check.GetColour())%2 == int(face_up.back().GetColour())%2)
 	{
@@ -82,6 +83,21 @@ int Cards_stack::Size_face_up()
 	return face_up.size();
 }
 
+void Cards_stack::SetSelect_card(bool option)
+{
+	if (!option)
+	{
+		for (int i = 0; i < face_up.size(); i++)
+		{
+			face_up.at(i).SetSelect(false);
+		}
+	}
+	if (!face_up.empty())
+	{
+		face_up.back().SetSelect(option);
+	}
+}
+
 void Cards_stack::Show_card(int index) const
 {
 	if (face_down.size() + face_up.size() <= index)
@@ -94,6 +110,7 @@ void Cards_stack::Show_card(int index) const
 	}
 	else
 	{
+		//face_up.at(index - face_down.size()).m_selected = true;
 		face_up.at(index - face_down.size()).Show_user();
 	}
 }

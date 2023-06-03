@@ -18,7 +18,14 @@ void Card::Show_debug() const
 void Card::Show_user() const
 {
 	TextColourChanger textColour(m_selected);
-	std::cout << " [ " << ValueToString(m_value) << "." << ColourToSign(m_colour) << " ]";
+	if (m_value == 10)
+	{
+		std::cout << " [ " << ValueToString(m_value) << ColourToSign(m_colour) << " ]";
+	}
+	else
+	{
+		std::cout << " [ " << ValueToString(m_value) << "/" << ColourToSign(m_colour) << " ]";
+	}
 }
 
 int Card::GetValue() const

@@ -12,6 +12,11 @@ public:
 	void Remove_card();
 	bool Check_not_empty();
 	bool See_card();
+
+	void SetSelect_card(bool option);
+
+
+
 	// Odziedziczono za poœrednictwem elementu I_printable
 	virtual void Show_debug() const override;
 	virtual void Show_user() const override;

@@ -52,6 +52,14 @@ bool Choose_stack::See_card()
 	return false;
 }
 
+void Choose_stack::SetSelect_card(bool option)
+{
+	if (!m_visible_cards.empty())
+	{
+		m_visible_cards.back().SetSelect(option);
+	}
+}
+
 void Choose_stack::Show_debug() const
 {
 	std::cout << "visible: " << std::endl;
@@ -71,18 +79,17 @@ void Choose_stack::Show_debug() const
 void Choose_stack::Show_user() const
 {
 	if (m_hidden_cards.empty()) {
-		std::cout << "  ";
+		std::cout << "       ";
 	}
 	else
 	{
-		std::cout << "X ";
+		std::cout << " [ X.X ] ";
 	}
 	if (m_visible_cards.empty()) {
-		std::cout << " ";
+		std::cout << "     ";
 	}
 	else
 	{
-
 		m_visible_cards.back().Show_user();
 	}
 }

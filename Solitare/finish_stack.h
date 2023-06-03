@@ -11,6 +11,9 @@ public:
 	Card Give_card();
 	void Remove_card();
 	bool Check_not_empty();
+
+	void SetSelect_card(bool option);
+
 	// Odziedziczono za poœrednictwem elementu I_printable
 	virtual void Show_debug() const override;
 	virtual void Show_user() const override;

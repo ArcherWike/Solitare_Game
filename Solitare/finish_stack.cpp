@@ -40,6 +40,11 @@ bool Finish_stack::Check_not_empty()
 	return true;
 }
 
+void Finish_stack::SetSelect_card(bool option)
+{
+	m_card.back().SetSelect(option);
+}
+
 void Finish_stack::Show_debug() const
 {
 	for (int i = 0; i < m_card.size(); i++)
@@ -52,10 +57,11 @@ void Finish_stack::Show_user() const
 {
 	if (!m_card.empty())
 	{
+		//m_card.back().SetSelect(true);
 		m_card.back().Show_user();
 	}
 	else
 	{
-		std::cout << " ";
+		std::cout << "[     ]";
 	}
 }

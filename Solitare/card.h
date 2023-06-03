@@ -20,9 +20,8 @@ public:
 	void SetSelect(bool option);
 	bool IsSelected() const;
 
-
-private:
 	bool m_selected = false;
+private:
 	int m_value;
 	Colour m_colour;
 	static std::string ColourToString(const Colour& val_colour);
