@@ -36,6 +36,8 @@ private:
 	int selected_column = 0;
 	int selected_row = 0;
 
+	int Select_more_cards();
+
 	Game_event active_event = Game_event::hidden_choose_stack;
 	Game_event Available_move();
 

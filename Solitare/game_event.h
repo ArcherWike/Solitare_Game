@@ -25,9 +25,5 @@ enum class Game_event
 	card_to_finish_stack,
 
 
-
-
-
-
 	test //
 };

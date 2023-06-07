@@ -45,6 +45,11 @@ void Game::Handle_event(int option)
 		{
 			selected_cards.push_back(selected_column);
 		}
+		else if (option == 2 && m_columns.at(selected_column).Size_face_up() > 1)
+		{
+			selected_cards.push_back(selected_column);
+			selected_cards.push_back(Select_more_cards());
+		}
 		break;
 	case Game_event::card_to_stack:
 		if (option == 1)
@@ -66,6 +71,7 @@ void Game::Handle_event(int option)
 		if (option == 1)
 		{
 			selected_cards.push_back(8);
+			selected_cards.push_back(selected_column - 2);
 			Move_cards(selected_cards);
 			selected_cards.clear();
 			Uncheck_all_cards();
@@ -85,19 +91,19 @@ void Game::Move_cards(std::vector<int> input_val)
 	{
 		if (input_val.at(1) == 8) //To Finish_stack
 		{
+			Finish_stack& to_stack = m_finish_stacks.at(input_val.at(2));
+
 			std::cout << "move choose -> finish: ";
 			if (m_choose_card.Check_not_empty())
 			{
-				for (int j = 0; j < m_finish_stacks.size(); j++)
+				
+				if (to_stack.Check_take_card(m_choose_card.Give_card()))
 				{
-					if (m_finish_stacks.at(j).Check_take_card(m_choose_card.Give_card()))
-					{
-						std::cout << "mozna dodac";
-						m_finish_stacks.at(j).Add_card(m_choose_card.Give_card());
-						m_choose_card.Remove_card();
-						break;
-					}
+					std::cout << "mozna dodac";
+					to_stack.Add_card(m_choose_card.Give_card());
+					m_choose_card.Remove_card();
 				}
+				
 			}
 			else
 			{
@@ -174,26 +180,26 @@ void Game::Move_cards(std::vector<int> input_val)
 			std::cout << "move stack -> stack: ";
 			Cards_stack& from_column = m_columns.at(input_val.at(0));
 			//Cards_stack *from_column = &m_columns.at(input_val.at(0));
-
-			Cards_stack& to_column = m_columns.at(input_val.at(1));
+					//from_column->Remove_card(lenght_mfrom, input_val.at(2));
 
 			if (input_val.size() == 3)
 			{
-				/*std::cout << m_columns.at(input_val.at(0)).Check_has_card(input_val.at(2));
-				std::cout << m_columns.at(input_val.at(0)).Give_index(input_val.at(2));*/
-				int lenght_mfrom = m_columns.at(input_val.at(0)).Size_face_up();
-				if (to_column.Check_take_card(m_columns.at(input_val.at(0)).Give_card(input_val.at(2))))
+				Cards_stack& to_column = m_columns.at(input_val.at(2));
+		
+				int lenght_mfrom = from_column.Size_face_up();
+				int transfer_index = lenght_mfrom - 1 - input_val.at(1);
+				if (to_column.Check_take_card(m_columns.at(input_val.at(0)).Give_card(input_val.at(1))))
 				{
-					for (int i = input_val.at(2); i < lenght_mfrom; i++)
+					for (int i = input_val.at(1); i >= 0; i--)
 					{
-						to_column.Add_card(m_columns.at(input_val.at(0)).Give_card(i));
+						to_column.Add_card(from_column.Give_card(i));
 					}
-					//from_column->Remove_card(lenght_mfrom, input_val.at(2));
-					from_column.Remove_card(lenght_mfrom, input_val.at(2));
+					from_column.Remove_card(lenght_mfrom, transfer_index);
 				}
 			}
 			else
 			{
+				Cards_stack& to_column = m_columns.at(input_val.at(1));
 				if (from_column.Check_not_empty())//z ktorego biore
 				{
 
@@ -267,7 +273,8 @@ Game_event Game::Choose_action()
 		Handle_event(1);
 		return Game_event::select;
 	case '2':
-		Show_debug();
+		Handle_event(2);
+		return Game_event::select;
 
 	case '3':
 		Handle_event(3);
@@ -276,6 +283,45 @@ Game_event Game::Choose_action()
 		std::cout << std::endl << " ";  // not arrow
 	}
 	return Game_event::select;
+}
+
+int Game::Select_more_cards()
+{
+	int quantity = 0;
+	bool loop = true;
+	m_columns.at(selected_column).SetSelect_card(true, quantity);
+	while (loop)
+	{
+		system("cls");
+		Show_user();
+		std::cout << quantity;
+		int key_user;
+		key_user = _getch();
+		switch (key_user)
+		{
+		case KEY_UP:
+			quantity++;
+			if (quantity + 1 > m_columns.at(selected_column).Size_face_up())
+			{
+				quantity = m_columns.at(selected_column).Size_face_up() - 1;
+			}
+			m_columns.at(selected_column).SetSelect_card(true,quantity);
+			break;
+
+		case KEY_DOWN:
+			quantity--;
+			if (quantity < 0)
+			{
+				quantity = 1;
+			}
+			m_columns.at(selected_column).SetSelect_card(false, quantity+1);
+			break;
+		case '1':
+			loop = false;
+			break;
+		}
+	}
+	return quantity;
 }
 
 Game_event Game::Available_move()
@@ -389,12 +435,19 @@ void Game::Uncheck_all_cards()
 		{
 			if (selected_cards.at(0) != i)
 			{
-				m_columns.at(i).SetSelect_card(false);
+				for (int j = 0; j < m_columns.at(i).Size_face_up(); j++)
+				{
+					m_columns.at(i).SetSelect_card(false, j);
+
+				}
 			}
 		}
 		else
 		{
-			m_columns.at(i).SetSelect_card(false);
+			for (int j = 0; j < m_columns.at(i).Size_face_up(); j++)
+			{
+				m_columns.at(i).SetSelect_card(false, j);
+			}
 		}
 	}
 	for (int i = 0; i < 4; i++)
@@ -448,7 +501,7 @@ void Game::Show_user() const
 
 	std::cout << std::endl;
 	std::cout << std::endl;
-	for (int j = 0; j < 7; j++)
+	for (int j = 0; j < 18; j++)
 	{
 		for (int i = 0; i < m_columns.size(); i++)
 		{
@@ -473,10 +526,6 @@ void Game::Show_user_option()
 		std::cout << "1 - Take card from choose stack";
 		break;
 
-	case Game_event::stack:
-		std::cout << " 1 - Take card from " << selected_column + 1 << " stack" << std::endl;
-		std::cout << " 2 - Select more cards";
-		break;
 	case Game_event::selected_stack:
 		std::cout << " 3 - Uncheck card";
 		break;
@@ -484,7 +533,12 @@ void Game::Show_user_option()
 		std::cout << " Nothing to do... this stack is empty ;/";
 		break;
 	case Game_event::card_from_stack:
-		std::cout << " 1 - Take card from " << selected_column + 1 << " stack" << std::endl;
+		std::cout << " 1 - Take card from " << selected_column + 1 << "stack" << std::endl;
+
+		if (m_columns.at(selected_column).Size_face_up() > 1)
+		{
+			std::cout << " 2 - Select more cards";
+		}
 		break;
 	case Game_event::card_to_stack:
 		std::cout << " 1 - Move card to " << selected_column + 1 << " stack" << std::endl;

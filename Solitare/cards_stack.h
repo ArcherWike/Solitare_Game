@@ -17,7 +17,7 @@ public:
 	int Give_index(int card_value);
 	int Size_face_up();
 
-	void SetSelect_card(bool option);
+	void SetSelect_card(bool option, int index = 0);
 
 	void Show_card(int index) const;
 	// Odziedziczono za poœrednictwem elementu I_printable

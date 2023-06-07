@@ -83,19 +83,9 @@ int Cards_stack::Size_face_up()
 	return face_up.size();
 }
 
-void Cards_stack::SetSelect_card(bool option)
+void Cards_stack::SetSelect_card(bool option, int index)
 {
-	if (!option)
-	{
-		for (int i = 0; i < face_up.size(); i++)
-		{
-			face_up.at(i).SetSelect(false);
-		}
-	}
-	if (!face_up.empty())
-	{
-		face_up.back().SetSelect(option);
-	}
+	face_up.at(face_up.size() - 1 - index).SetSelect(option);
 }
 
 void Cards_stack::Show_card(int index) const
