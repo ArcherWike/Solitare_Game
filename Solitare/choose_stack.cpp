@@ -29,6 +29,11 @@ bool Choose_stack::Check_not_empty()
 	return false;
 }	//m_visible_cards.erase(m_visible_cards.begin() + m_visible_cards.size());
 
+bool Choose_stack::Check_hidden_stack_not_empty()
+{
+	return !m_hidden_cards.empty();
+}
+
 
 bool Choose_stack::See_card()
 {

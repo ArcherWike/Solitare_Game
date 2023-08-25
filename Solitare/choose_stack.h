@@ -11,6 +11,7 @@ public:
 	Card Give_card();
 	void Remove_card();
 	bool Check_not_empty();
+	bool Check_hidden_stack_not_empty();
 	bool See_card();
 
 	void SetSelect_card(bool option);

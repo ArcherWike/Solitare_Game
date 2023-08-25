@@ -136,14 +136,15 @@ void Game::Move_cards(std::vector<int> input_val)
 	}//Finish_Stack -> X
 	else if (input_val.front() == 8) //From Finish_Stack
 	{
+		Finish_stack& from_stack = m_finish_stacks.at(input_val.at(1));
 		std::cout << "move Finish -> Stack: ";
-		if (m_finish_stacks.at(input_val.at(1)).Check_not_empty())
+		if (from_stack.Check_not_empty())
 		{
-			if (m_columns.at(input_val.at(2)).Check_take_card(m_finish_stacks.at(input_val.at(1)).Give_card()))
+			if (m_columns.at(input_val.at(2)).Check_take_card(from_stack.Give_card()))
 			{
 				std::cout << "mozna dodac";
-				m_columns.at(input_val.at(2)).Add_card(m_finish_stacks.at(input_val.at(1)).Give_card());
-				m_finish_stacks.at(input_val.at(1)).Remove_card();
+				m_columns.at(input_val.at(2)).Add_card(from_stack.Give_card());
+				from_stack.Remove_card();
 			}
 		}
 		else
@@ -159,15 +160,13 @@ void Game::Move_cards(std::vector<int> input_val)
 			std::cout << "move stack -> finish: ";
 			if (from_column.Check_not_empty())
 			{
-				for (int j = 0; j < m_finish_stacks.size(); j++)
+				Finish_stack& to_stack = m_finish_stacks.at(input_val.at(2));
+				if (to_stack.Check_take_card(from_column.Give_card()))
 				{
-					if (m_finish_stacks.at(j).Check_take_card(from_column.Give_card(0)))
-					{
-						std::cout << "mozna dodac";
-						m_finish_stacks.at(j).Add_card(from_column.Give_card(0));
-						from_column.Remove_card(1, 0);
-						break;
-					}
+					std::cout << "mozna dodac";
+					to_stack.Add_card(from_column.Give_card());
+					from_column.Remove_card();
+					
 				}
 			}
 			else
@@ -403,7 +402,10 @@ void Game::Set_event()
 	}
 	else
 	{
-		m_columns.at(selected_column).SetSelect_card(true);
+		if (m_columns.at(selected_column).Check_not_empty())
+		{
+			m_columns.at(selected_column).SetSelect_card(true);
+		}
 		active_event = Game_event::stack;
 	}
 }
@@ -520,7 +522,14 @@ void Game::Show_user_option()
 	switch (option)
 	{
 	case Game_event::hidden_choose_stack:
-		std::cout << " 1 - Flip the card";
+		if (m_choose_card.Check_hidden_stack_not_empty())
+		{
+			std::cout << " 1 - Flip the card";
+		}
+		else
+		{
+			std::cout << " Nothing to do... stack is empty ;/";
+		}
 		break;
 	case Game_event::card_from_choose_stack:
 		std::cout << "1 - Take card from choose stack";
@@ -544,10 +553,10 @@ void Game::Show_user_option()
 		std::cout << " 1 - Move card to " << selected_column + 1 << " stack" << std::endl;
 		break;
 	case Game_event::card_from_finish_stack:
-		std::cout << "1 - Take from finish_stack " << selected_column - 2 << " selected card";
+		std::cout << "1 - Take from finish_stack " << selected_column - 1 << " selected card";
 		break;
 	case Game_event::card_to_finish_stack:
-		std::cout << "1 - Move to finish_stack " << selected_column - 2 << " selected card";
+		std::cout << "1 - Move to finish_stack " << selected_column - 1 << " selected card";
 		break;
 	}
 }
