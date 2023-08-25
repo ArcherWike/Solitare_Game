@@ -3,6 +3,10 @@
 #include <windows.h>
 #include "TextColourChanger.h"
 
+#include<fcntl.h>
+#include <io.h>
+#include <windows.h>
+
 Card::Card(int val, Colour val_colour)
 	: m_colour(val_colour)
 	, m_value(val)
@@ -18,14 +22,15 @@ void Card::Show_debug() const
 void Card::Show_user() const
 {
 	TextColourChanger textColour(m_selected);
-	if (m_value == 10)
+	std::cout << " [ " << ValueToString(m_value);
+	if (m_value != 10)
 	{
-		std::cout << " [ " << ValueToString(m_value) << ColourToSign(m_colour) << " ]";
+		std::cout << " ";
 	}
-	else
-	{
-		std::cout << " [ " << ValueToString(m_value) << "/" << ColourToSign(m_colour) << " ]";
-	}
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	std::wcout << ColourToSign(m_colour);
+	_setmode(_fileno(stdout), _O_TEXT);
+	std::cout << " ]";
 }
 
 int Card::GetValue() const
@@ -65,18 +70,18 @@ std::string Card::ColourToString(const Colour& val_colour)
 	}
 }
 
-char Card::ColourToSign(const Colour& val_colour)
+wchar_t Card::ColourToSign(const Colour& val_colour)
 {
-	switch (val_colour) 
+	switch (val_colour)
 	{
 	case Colour::clubs:
-		return 5;
+		return L'\u2663';
 	case Colour::diamonds:
-		return 4;
+		return L'\u2666';
 	case  Colour::hearts:
-		return 3;
+		return L'\u2665';
 	case Colour::spades:
-		return 6;
+		return L'\u2660';
 	}
 }
 

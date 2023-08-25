@@ -25,7 +25,7 @@ private:
 	int m_value;
 	Colour m_colour;
 	static std::string ColourToString(const Colour& val_colour);
-	static char ColourToSign(const Colour& val_colour);
+	static wchar_t ColourToSign(const Colour& val_colour);
 
 	static std::string ValueToString(const int& val);
 };
