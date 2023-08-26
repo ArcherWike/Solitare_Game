@@ -14,33 +14,33 @@ Game::Game()
 }
 void Game::Handle_event(int option)
 {
-	Game_event event = Available_move();
+	Action event = Available_move();
 
 	switch (event)
 	{
-	case Game_event::hidden_choose_stack:
+	case Action::card_flip_hidden_choose_stack:
 		if (option == 1)
 		{
 			m_choose_card.See_card();
 		}
 		break;
-	case Game_event::card_from_choose_stack:
+	case Action::card_from_choose_stack:
 		if (option == 1)
 		{
 			selected_cards.push_back(9);
 		}
 		break;
 
-	case Game_event::nothing:
+	case Action::nothing:
 		break;
-	case Game_event::selected_stack:
+	case Action::selected_stack:
 		if (option == 3)
 		{
 			selected_cards.clear();
 			Uncheck_all_cards();
 		}
 		break;
-	case Game_event::card_from_stack:
+	case Action::card_from_stack:
 		if (option == 1)
 		{
 			selected_cards.push_back(selected_column);
@@ -51,7 +51,7 @@ void Game::Handle_event(int option)
 			selected_cards.push_back(Select_more_cards());
 		}
 		break;
-	case Game_event::card_to_stack:
+	case Action::card_to_stack:
 		if (option == 1)
 		{
 			selected_cards.push_back(selected_column);
@@ -60,14 +60,14 @@ void Game::Handle_event(int option)
 			Uncheck_all_cards();
 		}
 		break;
-	case Game_event::card_from_finish_stack:
+	case Action::card_from_finish_stack:
 		if (option == 1)
 		{
 			selected_cards.push_back(8);
 			selected_cards.push_back(selected_column - 2);
 		}
 		break;
-	case Game_event::card_to_finish_stack:
+	case Action::card_to_finish_stack:
 		if (option == 1)
 		{
 			selected_cards.push_back(8);
@@ -76,8 +76,6 @@ void Game::Handle_event(int option)
 			selected_cards.clear();
 			Uncheck_all_cards();
 		}
-		break;
-	case Game_event::test:
 		break;
 	default:
 		break;
@@ -323,77 +321,77 @@ int Game::Select_more_cards()
 	return quantity;
 }
 
-Game_event Game::Available_move()
+Game::Action Game::Available_move()
 {
-	switch (active_event)
+	switch (active_location)
 	{
-	case Game_event::hidden_choose_stack:
-		return Game_event::hidden_choose_stack;
+	case Location::hidden_choose_stack:
+		return Action::card_flip_hidden_choose_stack;
 
-	case Game_event::choose_stack:
+	case Location::choose_stack:
 		if (m_choose_card.Check_not_empty())
 		{
-			return Game_event::card_from_choose_stack;
+			return Action::card_from_choose_stack;
 		}
 		else
 		{
-			return Game_event::nothing;
+			return Action::nothing;
 		}
 
-	case Game_event::finish_stack:
+	case Location::finish_stack:
 		if (selected_cards.size() == 1)
 		{
-			return Game_event::card_to_finish_stack;
+			return Action::card_to_finish_stack;
 		}
 		else if (selected_cards.empty() && ((m_finish_stacks.at(selected_column - 2)).Check_not_empty()))
 		{
-			return Game_event::card_from_finish_stack;
+			return Action::card_from_finish_stack;
 		}
 		else
 		{
-			return Game_event::nothing;
+			return Action::nothing;
 		}
 		break;
 
-	case Game_event::stack:
+	case Location::stack:
 		if (selected_cards.empty())
 		{
 			if (m_columns.at(selected_column).Check_not_empty())
 			{
-				return Game_event::card_from_stack;
+				return Action::card_from_stack;
 			}
 			else
 			{
-				return Game_event::nothing;
+				return Action::nothing;
 			}		
 		}
 		else
 		{
 			if (selected_cards.front() != selected_column)
 			{
-				return Game_event::card_to_stack;
+				return Action::card_to_stack;
 			}
-			return Game_event::selected_stack;
+			return Action::selected_stack;
 		}
 	}
 }
 
-void Game::Set_event()
+void Game::Set_location()
 {	
 	if (selected_row == 0)
 	{
 		if (selected_column == 0)
 		{
-			active_event = Game_event::hidden_choose_stack;
+			active_location = Location::hidden_choose_stack;
 		}
 		else if (selected_column == 1)
 		{
 			m_choose_card.SetSelect_card(true);
-			active_event = Game_event::choose_stack;
+			active_location = Location::choose_stack;
 		}
 		else
 		{
-			active_event = Game_event::finish_stack;
+			active_location = Location::finish_stack;
 			if (m_finish_stacks.at(selected_column - 2).Check_not_empty())
 			{
 				m_finish_stacks.at(selected_column - 2).SetSelect_card(true);		
@@ -406,7 +404,7 @@ void Game::Set_event()
 		{
 			m_columns.at(selected_column).SetSelect_card(true);
 		}
-		active_event = Game_event::stack;
+		active_location = Location::stack;
 	}
 }
 
@@ -517,11 +515,11 @@ void Game::Show_user() const
 void Game::Show_user_option()
 {
 	//User game option
-	Game_event option = Available_move();
+	Action option = Available_move();
 
 	switch (option)
 	{
-	case Game_event::hidden_choose_stack:
+	case Action::card_flip_hidden_choose_stack:
 		if (m_choose_card.Check_hidden_stack_not_empty())
 		{
 			std::cout << " 1 - Flip the card";
@@ -531,17 +529,17 @@ void Game::Show_user_option()
 			std::cout << " Nothing to do... stack is empty ;/";
 		}
 		break;
-	case Game_event::card_from_choose_stack:
+	case Action::card_from_choose_stack:
 		std::cout << "1 - Take card from choose stack";
 		break;
 
-	case Game_event::selected_stack:
+	case Action::selected_stack:
 		std::cout << " 3 - Uncheck card";
 		break;
-	case Game_event::nothing:
+	case Action::nothing:
 		std::cout << " Nothing to do... this stack is empty ;/";
 		break;
-	case Game_event::card_from_stack:
+	case Action::card_from_stack:
 		std::cout << " 1 - Take card from " << selected_column + 1 << "stack" << std::endl;
 
 		if (m_columns.at(selected_column).Size_face_up() > 1)
@@ -549,13 +547,13 @@ void Game::Show_user_option()
 			std::cout << " 2 - Select more cards";
 		}
 		break;
-	case Game_event::card_to_stack:
+	case Action::card_to_stack:
 		std::cout << " 1 - Move card to " << selected_column + 1 << " stack" << std::endl;
 		break;
-	case Game_event::card_from_finish_stack:
+	case Action::card_from_finish_stack:
 		std::cout << "1 - Take from finish_stack " << selected_column - 1 << " selected card";
 		break;
-	case Game_event::card_to_finish_stack:
+	case Action::card_to_finish_stack:
 		std::cout << "1 - Move to finish_stack " << selected_column - 1 << " selected card";
 		break;
 	}

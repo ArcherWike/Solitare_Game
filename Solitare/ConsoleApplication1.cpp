@@ -9,7 +9,7 @@ int main()
     while (true)
     {
         system("cls");
-        game.Set_event();
+        game.Set_location();
         game.Show_user();
         game.Show_user_option();
 

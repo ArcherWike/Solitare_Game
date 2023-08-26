@@ -11,7 +11,7 @@ class Game: public I_printable
 public:
 	Game();
 
-	void Set_event();
+	void Set_location();
 
 	// I_printable
 	virtual void Show_debug() const override;
@@ -33,13 +33,33 @@ private:
 	Choose_stack m_choose_card;
 
 	//active position, event, selected_card
+	enum class Location
+	{
+		hidden_choose_stack,
+		choose_stack,
+		finish_stack,
+		stack,
+	};
+
+	Location active_location = Location::hidden_choose_stack;
+
+	enum class Action
+	{
+		nothing,
+		selected_stack,
+		card_flip_hidden_choose_stack,
+		card_from_choose_stack,
+		card_from_stack,
+		card_to_stack,
+		card_from_finish_stack,
+		card_to_finish_stack
+	};
+
 	int selected_column = 0;
 	int selected_row = 0;
 
 	int Select_more_cards();
-
-	Game_event active_event = Game_event::hidden_choose_stack;
-	Game_event Available_move();
+	Action Available_move();
 
 	std::vector<int> selected_cards;
 	void Uncheck_all_cards();
