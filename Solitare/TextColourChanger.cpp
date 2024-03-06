@@ -6,7 +6,7 @@ TextColourChanger::TextColourChanger(bool isSelected)
 	if (isSelected)
 	{
 		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(hConsole, 11);
+		SetConsoleTextAttribute(hConsole, 12);
 	}
 }
 

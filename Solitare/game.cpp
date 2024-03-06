@@ -1,5 +1,5 @@
 #include "game.h"
-
+#include <algorithm>
 #include <conio.h>
 
 #define KEY_UP 72
@@ -94,14 +94,12 @@ void Game::Move_cards(std::vector<int> input_val)
 			std::cout << "move choose -> finish: ";
 			if (m_choose_card.Check_not_empty())
 			{
-				
 				if (to_stack.Check_take_card(m_choose_card.Give_card()))
 				{
 					std::cout << "mozna dodac";
 					to_stack.Add_card(m_choose_card.Give_card());
 					m_choose_card.Remove_card();
-				}
-				
+				}				
 			}
 			else
 			{
@@ -163,8 +161,7 @@ void Game::Move_cards(std::vector<int> input_val)
 				{
 					std::cout << "mozna dodac";
 					to_stack.Add_card(from_column.Give_card());
-					from_column.Remove_card();
-					
+					from_column.Remove_card();				
 				}
 			}
 			else
@@ -392,9 +389,10 @@ void Game::Set_location()
 		else
 		{
 			active_location = Location::finish_stack;
-			if (m_finish_stacks.at(selected_column - 2).Check_not_empty())
+			int finish_stack_index = std::min(selected_column - 2, (int)m_finish_stacks.size() - 1);
+			if (m_finish_stacks.at(finish_stack_index).Check_not_empty())
 			{
-				m_finish_stacks.at(selected_column - 2).SetSelect_card(true);		
+				m_finish_stacks.at(finish_stack_index).SetSelect_card(true);
 			}
 		}
 	}

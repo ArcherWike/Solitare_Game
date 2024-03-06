@@ -5,8 +5,11 @@ bool Finish_stack::Check_take_card(const Card& card_to_check) const
 {
 	if (m_card.empty())
 	{
-		//if (card_to_check.m_value == 0)
-		return true;
+		if (card_to_check.GetValue() == 1)
+		{
+			return true;
+
+		}
 	}
 	else if (m_card.back().GetValue() + 1 == card_to_check.GetValue()
 		&& m_card.back().GetColour() == card_to_check.GetColour())

@@ -46,8 +46,7 @@ void Cards_stack::Remove_card(int quantity, int index)
 bool Cards_stack::Check_take_card(const Card& card_to_check) const
 {
 	return true;
-	if (card_to_check.GetValue() == face_up.back().GetValue() + 1
-		&& int(card_to_check.GetColour())%2 == int(face_up.back().GetColour())%2)
+	if ((card_to_check.GetValue() == face_up.back().GetValue() + 1) && (int(card_to_check.GetColour())%2 == int(face_up.back().GetColour())%2))
 	{
 		return true;
 	}
